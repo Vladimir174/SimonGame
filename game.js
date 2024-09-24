@@ -16,7 +16,6 @@ function nextSequence() {
     .fadeIn(100)
     .fadeOut(100)
     .fadeIn(100);
-  playSound(randomChosenColour);
 }
 
 //Играем звук при клике
@@ -24,6 +23,7 @@ $(".btn").on("click", function () {
   var userChosenColour = $(this).attr("id");
   userClickedPattern.push(userChosenColour);
   playSound(userChosenColour);
+  animatePress(userChosenColour);
 });
 
 //Функция воспроизведения нужного звука
@@ -33,3 +33,20 @@ function playSound(name) {
     console.error("Ошибка проигрывания звука:", err);
   });
 }
+
+//Анимация кнопок
+function animatePress(currentColor) {
+  $("#" + currentColor).addClass("pressed");
+
+  setTimeout(function () {
+    $("#" + currentColor).removeClass("pressed");
+  }, 100);
+}
+
+//Ожидание нажатие кнопка А.
+$(document).on("keyDown", function (e) {
+  var keyP = "a";
+  if (e.key === keyP) {
+    nextSequence();
+  }
+});
