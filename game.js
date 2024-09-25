@@ -3,12 +3,15 @@ var buttonColours = ["red", "blue", "green", "yellow"];
 
 var gamePattern = [];
 var userClickedPattern = [];
+var started = false;
+var level = 0;
 
 //функция генерации случайного числа
 function nextSequence() {
   var randomNumber = Math.floor(Math.random() * 4);
   var randomChosenColour = buttonColours[randomNumber];
   gamePattern.push(randomChosenColour);
+  playSound(randomChosenColour);
 
   //Записываем в массим полученный случайный цвет
   $("#" + randomChosenColour)
@@ -16,6 +19,8 @@ function nextSequence() {
     .fadeIn(100)
     .fadeOut(100)
     .fadeIn(100);
+  level++;
+  $("h1").text("level " + level);
 }
 
 //Играем звук при клике
@@ -44,9 +49,10 @@ function animatePress(currentColor) {
 }
 
 //Ожидание нажатие кнопка А.
-$(document).on("keyDown", function (e) {
-  var keyP = "a";
-  if (e.key === keyP) {
+$(document).on("keydown", function () {
+  if (!started) {
+    $("#level-title").text("Level " + level);
     nextSequence();
+    started = true;
   }
 });
